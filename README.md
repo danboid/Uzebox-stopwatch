@@ -1,2 +1,1 @@
-# Uzebox-stopwatch
-Uzebox stopwatch
+# Uzebox stopwatch
