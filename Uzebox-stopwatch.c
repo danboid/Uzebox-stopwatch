@@ -34,13 +34,13 @@ int main()
         Print(8,2,PSTR("UZEBOX STOPWATCH"));
 
         // Print seconds
-        DrawDigits(56,21);
+        DrawDigits(56,20);
         // Print minutes
-        DrawDigits(34,11);
+        DrawDigits(34,10);
         // Print hours
-        DrawDigits(12,1);
+        DrawDigits(12,0);
 
-        // Print 1/10ths of a second column
-        Print(31,9,PSTR("0"));
+        // Print jiffys/ticks/thirds (1/60th seconds)
+        Print(30,9,PSTR("78"));
     }
 }
