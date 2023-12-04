@@ -12,6 +12,18 @@
 
 const char *numbers[10] = {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9};
 
+void DrawDigits(int number, int xoffset);
+
+// DrawDigits is a function to easily draw a double digit number between 00 and 99 using the large numbers.
+// xoffset represents the first column to use for the first (10s) number of the pair.
+
+void DrawDigits(int number, int xoffset) {
+    // First we draw the units (rightmost) digit. It gets drawn at xoffset + 5 tiles
+    DrawMap2((xoffset + 5), 5, (numbers[number % 10]));
+    // Draw the tens (leftmost) digit
+    DrawMap2(xoffset, 5, (numbers[number / 10 % 10]));
+}
+
 int main()
 {
     SetSpritesTileTable(tileset);
@@ -21,20 +33,14 @@ int main()
     {
         Print(8,2,PSTR("UZEBOX STOPWATCH"));
 
-        // 1/10ths second column
-        Print(31,9,PSTR("0"));
-        // Right seconds column
-        DrawMap2(26, 5, (numbers[0]));
-        // Left seconds column
-        DrawMap2(21, 5, (numbers[0]));
-        // Right minutes column
-        DrawMap2(16, 5, (numbers[0]));
-        // Left minutes column
-        DrawMap2(11, 5, (numbers[0]));
-        // Right hours column
-        DrawMap2(6, 5, (numbers[0]));
-        // Left hours column
-        DrawMap2(1, 5, (numbers[0]));
+        // Print seconds
+        DrawDigits(56,21);
+        // Print minutes
+        DrawDigits(34,11);
+        // Print hours
+        DrawDigits(12,1);
 
+        // Print 1/10ths of a second column
+        Print(31,9,PSTR("0"));
     }
 }
