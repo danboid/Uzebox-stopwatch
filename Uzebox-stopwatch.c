@@ -24,9 +24,9 @@ void DrawDigits(int number, int xoffset);
 
 void DrawDigits(int number, int xoffset) {
     // First we draw the units (rightmost) digit. It gets drawn at xoffset + 5 tiles
-    DrawMap2((xoffset + 5), 5, (numbers[number % 10]));
+    DrawMap2((xoffset + 5), 6, (numbers[number % 10]));
     // Draw the tens (leftmost) digit or a zero
-    DrawMap2(xoffset, 5, (numbers[number / 10 % 10]));
+    DrawMap2(xoffset, 6, (numbers[number / 10 % 10]));
 }
 
 int main()
@@ -37,12 +37,24 @@ int main()
     while (1)
     {
         Print(8,2,PSTR("UZEBOX STOPWATCH"));
+        Print(8,4,PSTR("BY DAN MACDONALD"));
+
+        Print(5,14,PSTR("PUSH START TO START/STOP"));
+        Print(7,16,PSTR("PUSH SELECT TO RESET"));
 
         btnheld = ReadJoypad(0);
 
         if (btnheld != btnprev) {
-            if(btnheld & BTN_START) {
+            if (btnheld & BTN_START) {
                 active = !active;
+            }
+            if (btnheld & BTN_SELECT) {
+                if (active == false) {
+                    frames = 0;
+                    seconds = 0;
+                    minutes = 0;
+                    hours = 0;
+                }
             }
             btnprev = btnheld;
         }
@@ -72,6 +84,6 @@ int main()
         DrawDigits(hours,2);
 
         // Print jiffys/ticks/thirds/frames (1/60th seconds)
-        PrintInt(30,11,frames,true);
+        PrintInt(30,12,frames,true);
     }
 }
