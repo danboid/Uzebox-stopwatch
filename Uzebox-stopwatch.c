@@ -17,6 +17,20 @@ int frames, seconds, minutes, hours, btnprev, btnheld = 0;
 
 bool active = false;
 
+const char boing[] PROGMEM ={
+0,PC_WAVE,8,
+0,PC_ENV_VOL,0xE0,
+0,PC_ENV_SPEED,-20,
+2,PC_NOTE_DOWN,6,
+2,PC_NOTE_DOWN,6,
+2,PC_NOTE_CUT,0,
+0,PATCH_END
+};
+
+const struct PatchStruct patches[] PROGMEM = {
+  {0, NULL, boing, 0, 0},
+};
+
 // DrawDigits is a function to easily draw a double digit number between 00 and 99 using the large numbers.
 // xoffset represents the first column to use for the first (10s) number of the pair.
 
@@ -32,6 +46,7 @@ void DrawDigits(int number, int xoffset) {
 int main()
 {
     SetSpritesTileTable(tileset);
+    InitMusicPlayer(patches);
     SetTileTable(tileset);
     ClearVram();
     while (1)
@@ -47,6 +62,7 @@ int main()
         if (btnheld != btnprev) {
             if (btnheld & BTN_START) {
                 active = !active;
+                TriggerNote(0, 0, 92, 127);
             }
             if (btnheld & BTN_SELECT) {
                 if (active == false) {
@@ -54,6 +70,7 @@ int main()
                     seconds = 0;
                     minutes = 0;
                     hours = 0;
+                    TriggerNote(0, 0, 80, 127);
                 }
             }
             btnprev = btnheld;
