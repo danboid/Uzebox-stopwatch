@@ -13,6 +13,10 @@
 
 const char *numbers[10] = {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9};
 
+int frames, seconds, minutes, hours, btnprev, btnheld = 0;
+
+bool active = false;
+
 // DrawDigits is a function to easily draw a double digit number between 00 and 99 using the large numbers.
 // xoffset represents the first column to use for the first (10s) number of the pair.
 
@@ -34,14 +38,40 @@ int main()
     {
         Print(8,2,PSTR("UZEBOX STOPWATCH"));
 
+        btnheld = ReadJoypad(0);
+
+        if (btnheld != btnprev) {
+            if(btnheld & BTN_START) {
+                active = !active;
+            }
+            btnprev = btnheld;
+        }
+
+
+        if (active) {
+            frames++;
+            if (frames >= 60) {
+                seconds++;
+                frames=0;
+            }
+            if (seconds >= 60) {
+                minutes++;
+                seconds=0;
+            }
+            if (minutes >= 60) {
+                hours++;
+                minutes=0;
+            }
+        }
+
         // Print seconds
-        DrawDigits(56,20);
+        DrawDigits(seconds,22);
         // Print minutes
-        DrawDigits(34,10);
+        DrawDigits(minutes,12);
         // Print hours
-        DrawDigits(12,0);
+        DrawDigits(hours,2);
 
         // Print jiffys/ticks/thirds/frames (1/60th seconds)
-        Print(30,9,PSTR("78"));
+        PrintInt(30,11,frames,true);
     }
 }
