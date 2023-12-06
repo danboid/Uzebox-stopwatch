@@ -51,6 +51,8 @@ int main()
     ClearVram();
     while (1)
     {
+        WaitVsync(1); // This is key to keeping accurate time.
+
         Print(9,2,PSTR("UZEBOX STOPWATCH"));
         Print(9,4,PSTR("BY DAN MACDONALD"));
 
