@@ -18,17 +18,17 @@ int frames, seconds, minutes, hours, btnprev, btnheld = 0;
 bool active = false;
 
 const char boing[] PROGMEM ={
-0,PC_WAVE,8,
-0,PC_ENV_VOL,0xE0,
-0,PC_ENV_SPEED,-20,
-2,PC_NOTE_DOWN,6,
-2,PC_NOTE_DOWN,6,
-2,PC_NOTE_CUT,0,
-0,PATCH_END
+    0,PC_WAVE,8,
+    0,PC_ENV_VOL,0xE0,
+    0,PC_ENV_SPEED,-20,
+    2,PC_NOTE_DOWN,6,
+    2,PC_NOTE_DOWN,6,
+    2,PC_NOTE_CUT,0,
+    0,PATCH_END
 };
 
 const struct PatchStruct patches[] PROGMEM = {
-  {0, NULL, boing, 0, 0},
+    {0, NULL, boing, 0, 0},
 };
 
 // DrawDigits is a function to easily draw a double digit number between 00 and 99 using the large numbers.
@@ -41,6 +41,13 @@ void DrawDigits(int number, int xoffset) {
     DrawMap2((xoffset + 5), 8, (numbers[number % 10]));
     // Draw the tens (leftmost) digit or a zero
     DrawMap2(xoffset, 8, (numbers[number / 10 % 10]));
+}
+
+void DrawColon(int xoffset);
+
+void DrawColon(int xoffset) {
+    SetTile(xoffset,9,14);
+    SetTile(xoffset,11,14);
 }
 
 int main()
@@ -95,12 +102,19 @@ int main()
             }
         }
 
-        // Print seconds
-        DrawDigits(seconds,22);
-        // Print minutes
-        DrawDigits(minutes,12);
+
         // Print hours
         DrawDigits(hours,2);
+
+        DrawColon(11);
+
+        // Print minutes
+        DrawDigits(minutes,12);
+
+        DrawColon(21);
+
+        // Print seconds
+        DrawDigits(seconds,22);
 
         // Print jiffys/ticks/thirds/frames (1/60th seconds)
         PrintInt(16,15,frames,false);
