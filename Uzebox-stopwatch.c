@@ -13,7 +13,7 @@
 
 const char *numbers[10] = {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9};
 
-int frames, seconds, minutes, hours, btnprev, btnheld = 0;
+int frames, seconds, minutes, hours, hundreds, btnprev, btnheld = 0;
 
 bool active = false;
 
@@ -79,6 +79,7 @@ int main()
                     seconds = 0;
                     minutes = 0;
                     hours = 0;
+                    hundreds = 0;
                     TriggerNote(0, 0, 80, 127);
                 }
             }
@@ -100,8 +101,17 @@ int main()
                 hours++;
                 minutes=0;
             }
+            if (hours >= 100) {
+                hundreds++;
+                frames = 0;
+                seconds = 0;
+                minutes = 0;
+                hours = 0;
+            }
         }
 
+        // Print hundreds of hours
+        PrintInt(16,23,hundreds,false);
 
         // Print hours
         DrawDigits(hours,2);
